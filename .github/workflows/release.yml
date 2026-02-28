@@ -21,6 +21,8 @@ jobs:
           fetch-depth: 0
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+      - name: Set version from tag
+        run: uv version ${GITHUB_REF_NAME#v}
       - name: Install Python 3.14
         run: uv python install 3.14
       - name: Install project
