@@ -283,14 +283,14 @@ class TestListSchemata:
     def test_list_includes_known_node_schema(self):
         result = runner.invoke(generate_entities, ["--list"])
         lines = result.output.splitlines()
-        person_lines = [l for l in lines if l.startswith("Person")]
+        person_lines = [line for line in lines if line.startswith("Person")]
         assert len(person_lines) == 1
         assert "node" in person_lines[0]
 
     def test_list_includes_known_edge_schema(self):
         result = runner.invoke(generate_entities, ["--list"])
         lines = result.output.splitlines()
-        directorship_lines = [l for l in lines if l.startswith("Directorship")]
+        directorship_lines = [line for line in lines if line.startswith("Directorship")]
         assert len(directorship_lines) == 1
         assert "edge" in directorship_lines[0]
 
