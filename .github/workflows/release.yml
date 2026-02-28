@@ -81,3 +81,15 @@ jobs:
       #  run: uv run --isolated --no-project --with dist/*.tar.gz tests/smoke_test.py
       - name: Publish
         run: uv publish
+      - name: Generate release notes for GitHub release
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --verbose --latest --strip header
+        env:
+          OUTPUT: RELEASE_NOTES.md
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          files: dist/*
