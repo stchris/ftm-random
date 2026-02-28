@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2026-02-28
+
+### Features
+
+- Set package version from tag in release workflow
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.2.0 [skip ci]
+
+### Other
+
+- Merge pull request #9 from stchris/claude/set-version-uv-01RdoQhNXqSdHZ2PzRot31Gx
+
 ## [0.2.0] - 2026-02-28
 
 ### Bug Fixes
