@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.4] - 2026-02-28
+
+### Other
+
+- Use main instead of detached so github doesn't refuse the commit
+
+## [0.2.3] - 2026-02-28
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.2.2 [skip ci]
+
+### Other
+
+- Filter requests deprecation warnings
+- (release) add uv.lock after setting the version
+
 ## [0.2.2] - 2026-02-28
 
 ### Bug Fixes
