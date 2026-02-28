@@ -18,6 +18,8 @@ Options:
   --connected      Link edge entities (e.g. Directorship) to other generated
                    entities.
   --outfile TEXT   JSONL output file or '-' for STDOUT
+  --list           List all available FTM schemas with their type and
+                   description.
   --help           Show this message and exit.
 ```
 <!-- help-end -->

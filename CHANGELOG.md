@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.2.0] - 2026-02-28
 
 ### Bug Fixes
 
@@ -15,8 +15,6 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-- Add test workflow
-- Add script
 - Add --connected flag to link generated entities via edge schemas
 
 When --connected is used, node entities (e.g. Person, Company) are
@@ -54,13 +52,11 @@ name, whether it acts as a node or edge in --connected mode, and its
 human-readable description. Also adds tests for the new flag.
 
 
+- Add git-cliff changelog generation
+- Create GitHub release on tag push
 
 ### Other
 
-- Initial commit
-- Release
-- Proper packaging
-- V0.1.2 prep
 - Merge pull request #1 from stchris/claude/add-connected-flag-cSfG0
 - Merge pull request #2 from stchris/claude/add-pytest-ruff-fixes-ZTXtQ
 - Automate README --help output in release workflow
@@ -77,5 +73,35 @@ human-readable description. Also adds tests for the new flag.
 - Merge pull request #4 from stchris/claude/add-list-command-VJcXq
 - Merge pull request #5 from stchris/claude/fix-ruff-linter-Bogrf
 - Merge pull request #6 from stchris/claude/fix-formatting-check-E9isP
+- Merge pull request #7 from stchris/claude/add-changelog-generation-SklhT
+- Merge pull request #8 from stchris/claude/github-release-workflow-gdIoI
+
+### Refactor
+
+- Extract release notes from CHANGELOG instead of re-running git-cliff
+
+## [0.1.2] - 2026-02-27
+
+### Other
+
+- Proper packaging
+- V0.1.2 prep
+
+## [0.1.1] - 2026-02-27
+
+### Features
+
+- Add script
+
+## [0.1.0] - 2026-02-27
+
+### Features
+
+- Add test workflow
+
+### Other
+
+- Initial commit
+- Release
 
 
