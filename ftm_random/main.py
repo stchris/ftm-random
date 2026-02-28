@@ -114,8 +114,27 @@ def generate_random_entity(schema_name, entity_pool=None):
 @click.option(
     "--outfile", "outfile", default=None, help="JSONL output file or '-' for STDOUT"
 )
-def generate_entities(count, schemata, random_schema, connected, outfile):
+@click.option(
+    "--list",
+    "list_schemata",
+    is_flag=True,
+    default=False,
+    help="List all available FTM schemas with their type and description.",
+)
+def generate_entities(count, schemata, random_schema, connected, outfile, list_schemata):
     """Generate random followthemoney entities."""
+    if list_schemata:
+        col_name = 20
+        col_type = 6
+        header = f"{'Schema':<{col_name}}  {'Type':<{col_type}}  Description"
+        click.echo(header)
+        click.echo("-" * len(header))
+        for name, schema in sorted(model.schemata.items()):
+            entity_type = "edge" if schema.edge else "node"
+            description = schema.description or ""
+            click.echo(f"{name:<{col_name}}  {entity_type:<{col_type}}  {description}")
+        return
+
     if random_schema:
         choices = list(model.schemata.keys())
     else:
