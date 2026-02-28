@@ -262,3 +262,40 @@ class TestConnectedCLI:
         entities = parse_output(result)
         assert len(entities) == 3
         assert all(e["schema"] == "Person" for e in entities)
+
+
+# ---------------------------------------------------------------------------
+# --list
+# ---------------------------------------------------------------------------
+
+
+class TestListSchemata:
+    def test_list_exits_cleanly(self):
+        result = runner.invoke(generate_entities, ["--list"])
+        assert result.exit_code == 0
+
+    def test_list_contains_header(self):
+        result = runner.invoke(generate_entities, ["--list"])
+        assert "Schema" in result.output
+        assert "Type" in result.output
+        assert "Description" in result.output
+
+    def test_list_includes_known_node_schema(self):
+        result = runner.invoke(generate_entities, ["--list"])
+        lines = result.output.splitlines()
+        person_lines = [l for l in lines if l.startswith("Person")]
+        assert len(person_lines) == 1
+        assert "node" in person_lines[0]
+
+    def test_list_includes_known_edge_schema(self):
+        result = runner.invoke(generate_entities, ["--list"])
+        lines = result.output.splitlines()
+        directorship_lines = [l for l in lines if l.startswith("Directorship")]
+        assert len(directorship_lines) == 1
+        assert "edge" in directorship_lines[0]
+
+    def test_list_produces_no_entities(self):
+        result = runner.invoke(generate_entities, ["--list"])
+        # Output should not be valid JSONL (no entity lines)
+        for line in result.output.splitlines():
+            assert not line.startswith("{")
