@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2026-02-28
+
+### Bug Fixes
+
+- *(release)* Commit pyproject.toml after uv version set
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.2.1 [skip ci]
+
+### Other
+
+- Create LICENSE
+- Merge pull request #10 from stchris/claude/commit-release-files-OUDZF
+- Configure MIT license in pyproject.toml
+
+
+- Merge pull request #11 from stchris/claude/configure-license-pyproject-ugerL
+
 ## [0.2.1] - 2026-02-28
 
 ### Features
