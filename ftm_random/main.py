@@ -23,7 +23,9 @@ TYPE_GENERATORS = {
     "url": lambda: fake.url(),
     "address": lambda: fake.address().replace("\n", ", "),
     "text": lambda: fake.sentence(),
-    "topic": lambda: random.choice(["role.pep", "role.rca", "sanction", "crime", "fin.bank"]),
+    "topic": lambda: random.choice(
+        ["role.pep", "role.rca", "sanction", "crime", "fin.bank"]
+    ),
     "entity": lambda: fake.sha1(),
 }
 
@@ -54,7 +56,8 @@ def generate_random_entity(schema_name, entity_pool=None):
     entity = model.make_entity(schema_name)
 
     settable = [
-        p for p in schema.properties.values()
+        p
+        for p in schema.properties.values()
         if not p.stub and p.name not in SKIP_PROPERTIES
     ]
 
@@ -89,10 +92,28 @@ def generate_random_entity(schema_name, entity_pool=None):
 
 @click.command()
 @click.option("--count", default=1, help="Number of entities to generate.")
-@click.option("--schema", "schemata", default=("Person",), multiple=True, help="FTM schema name (can be specified multiple times).")
-@click.option("--random-schema", is_flag=True, default=False, help="Use a random schema for each entity.")
-@click.option("--connected", is_flag=True, default=False, help="Link edge entities (e.g. Directorship) to other generated entities.")
-@click.option("--outfile", "outfile", default=None, help="JSONL output file or '-' for STDOUT" )
+@click.option(
+    "--schema",
+    "schemata",
+    default=("Person",),
+    multiple=True,
+    help="FTM schema name (can be specified multiple times).",
+)
+@click.option(
+    "--random-schema",
+    is_flag=True,
+    default=False,
+    help="Use a random schema for each entity.",
+)
+@click.option(
+    "--connected",
+    is_flag=True,
+    default=False,
+    help="Link edge entities (e.g. Directorship) to other generated entities.",
+)
+@click.option(
+    "--outfile", "outfile", default=None, help="JSONL output file or '-' for STDOUT"
+)
 def generate_entities(count, schemata, random_schema, connected, outfile):
     """Generate random followthemoney entities."""
     if random_schema:
@@ -126,8 +147,7 @@ def generate_entities(count, schemata, random_schema, connected, outfile):
         )
     if not node_schemas:
         raise click.ClickException(
-            "--connected requires at least one non-edge schema "
-            "(e.g. Person, Company)."
+            "--connected requires at least one non-edge schema (e.g. Person, Company)."
         )
 
     # Generate node entities and collect their IDs by schema

@@ -92,7 +92,15 @@ class TestConnectedCLI:
     def test_basic_connected_output(self):
         result = runner.invoke(
             generate_entities,
-            ["--schema", "Person", "--schema", "Company", "--schema", "Directorship", "--connected"],
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--schema",
+                "Directorship",
+                "--connected",
+            ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -106,7 +114,17 @@ class TestConnectedCLI:
     def test_connected_with_count(self):
         result = runner.invoke(
             generate_entities,
-            ["--schema", "Person", "--schema", "Company", "--schema", "Directorship", "--connected", "--count", "3"],
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--schema",
+                "Directorship",
+                "--connected",
+                "--count",
+                "3",
+            ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -120,7 +138,17 @@ class TestConnectedCLI:
     def test_edge_entities_reference_node_ids(self):
         result = runner.invoke(
             generate_entities,
-            ["--schema", "Person", "--schema", "Company", "--schema", "Directorship", "--connected", "--count", "5"],
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--schema",
+                "Directorship",
+                "--connected",
+                "--count",
+                "5",
+            ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -139,7 +167,15 @@ class TestConnectedCLI:
     def test_associate_references_persons(self):
         result = runner.invoke(
             generate_entities,
-            ["--schema", "Person", "--schema", "Associate", "--connected", "--count", "3"],
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Associate",
+                "--connected",
+                "--count",
+                "3",
+            ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -154,13 +190,25 @@ class TestConnectedCLI:
     def test_nodes_emitted_before_edges(self):
         result = runner.invoke(
             generate_entities,
-            ["--schema", "Person", "--schema", "Directorship", "--schema", "Company", "--connected", "--count", "2"],
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Directorship",
+                "--schema",
+                "Company",
+                "--connected",
+                "--count",
+                "2",
+            ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
         schemas = [e["schema"] for e in entities]
         # All node schemas should appear before any edge schema
-        last_node_idx = max(i for i, s in enumerate(schemas) if s in ("Person", "Company"))
+        last_node_idx = max(
+            i for i, s in enumerate(schemas) if s in ("Person", "Company")
+        )
         first_edge_idx = min(i for i, s in enumerate(schemas) if s == "Directorship")
         assert last_node_idx < first_edge_idx
 
@@ -184,12 +232,17 @@ class TestConnectedCLI:
         result = runner.invoke(
             generate_entities,
             [
-                "--schema", "Person",
-                "--schema", "Company",
-                "--schema", "Directorship",
-                "--schema", "Ownership",
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--schema",
+                "Directorship",
+                "--schema",
+                "Ownership",
                 "--connected",
-                "--count", "2",
+                "--count",
+                "2",
             ],
         )
         assert result.exit_code == 0
