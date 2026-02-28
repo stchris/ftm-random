@@ -13,14 +13,58 @@ jobs:
       name: pypi
     permissions:
       id-token: write
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Install Python 3.14
         run: uv python install 3.14
+      - name: Install project
+        run: uv sync --locked
+      - name: Update README with --help output
+        run: |
+          uv run python - <<'EOF'
+          import subprocess, re
+
+          result = subprocess.run(
+              ["ftm-random", "--help"], capture_output=True, text=True
+          )
+          help_text = result.stdout
+
+          with open("README.md") as f:
+              content = f.read()
+
+          new_block = (
+              "<!-- help-start -->\n"
+              "```\n"
+              "$ ftm-random --help\n"
+              + help_text
+              + "```\n"
+              "<!-- help-end -->"
+          )
+          new_content = re.sub(
+              r"<!-- help-start -->.*?<!-- help-end -->",
+              new_block,
+              content,
+              flags=re.DOTALL,
+          )
+
+          with open("README.md", "w") as f:
+              f.write(new_content)
+          EOF
+      - name: Commit and push README update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update README with --help output [skip ci]"
+            git push origin HEAD:main
+          fi
       - name: Build
         run: uv build
       # Check that basic features work and we didn't miss to include crucial files
