@@ -119,7 +119,7 @@ def generate_random_entity(schema_name, entity_pool=None):
     help="Link edge entities (e.g. Directorship) to other generated entities.",
 )
 @click.option(
-    "--outfile", "outfile", default=None, help="JSONL output file or '-' for STDOUT"
+    "--outfile", "outfile", default=None, help="JSONL output file (leave this out for STDOUT)"
 )
 @click.option(
     "--list",
