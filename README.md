@@ -4,6 +4,18 @@ Generate random [followthemoney](https://followthemoney.tech) entities.
 
 # Usage
 
+Run with `uvx` (requires [uv](https://docs.astral.sh/uv/)).
+
+```
+$ uvx ftm-random
+```
+
+or install it with pip:
+
+```
+$ pip install ftm-random
+```
+
 <!-- help-start -->
 ```
 $ ftm-random --help
