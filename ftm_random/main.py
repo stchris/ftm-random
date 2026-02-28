@@ -121,7 +121,9 @@ def generate_random_entity(schema_name, entity_pool=None):
     default=False,
     help="List all available FTM schemas with their type and description.",
 )
-def generate_entities(count, schemata, random_schema, connected, outfile, list_schemata):
+def generate_entities(
+    count, schemata, random_schema, connected, outfile, list_schemata
+):
     """Generate random followthemoney entities."""
     if list_schemata:
         col_name = 20
