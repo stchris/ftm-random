@@ -1,3 +1,10 @@
+import warnings
+
+# Suppress the warning message from requests, which is very cautious with
+# newer versions of urllib3 and chardet. Must be set before importing
+# anything that pulls in requests.
+warnings.filterwarnings("ignore", message="urllib3", module="requests")
+
 import json
 import random
 from collections import defaultdict
