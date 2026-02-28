@@ -1,5 +1,6 @@
 import json
 import random
+from collections import defaultdict
 
 import click
 from faker import Faker
@@ -30,7 +31,22 @@ TYPE_GENERATORS = {
 SKIP_PROPERTIES = {"indexText"}
 
 
-def generate_random_entity(schema_name):
+def _pick_entity_id(prop, entity_pool):
+    """Pick a random entity ID from the pool that matches the property's range."""
+    range_schema = prop.range
+    if range_schema is None:
+        return None
+    candidates = []
+    for schema_name, ids in entity_pool.items():
+        schema = model.get(schema_name)
+        if schema is not None and schema.is_a(range_schema):
+            candidates.extend(ids)
+    if candidates:
+        return random.choice(candidates)
+    return None
+
+
+def generate_random_entity(schema_name, entity_pool=None):
     schema = model.get(schema_name)
     if schema is None:
         raise click.ClickException(f"Unknown schema: {schema_name}")
@@ -45,6 +61,13 @@ def generate_random_entity(schema_name):
     for prop in settable:
         is_required = prop.name in schema.required
         type_name = prop.type.name
+
+        # For entity-type properties in connected mode, wire to real entities
+        if type_name == "entity" and entity_pool is not None:
+            entity_id = _pick_entity_id(prop, entity_pool)
+            if entity_id is not None:
+                entity.add(prop, entity_id)
+            continue
 
         # Always set name-type and required properties
         if type_name == "name" or is_required:
@@ -68,16 +91,58 @@ def generate_random_entity(schema_name):
 @click.option("--count", default=1, help="Number of entities to generate.")
 @click.option("--schema", "schemata", default=("Person",), multiple=True, help="FTM schema name (can be specified multiple times).")
 @click.option("--random-schema", is_flag=True, default=False, help="Use a random schema for each entity.")
+@click.option("--connected", is_flag=True, default=False, help="Link edge entities (e.g. Directorship) to other generated entities.")
 @click.option("--outfile", "outfile", default=None, help="JSONL output file or '-' for STDOUT" )
-def generate_entities(count, schemata, random_schema, outfile):
+def generate_entities(count, schemata, random_schema, connected, outfile):
     """Generate random followthemoney entities."""
     if random_schema:
         choices = list(model.schemata.keys())
     else:
         choices = list(schemata)
+
+    if not connected:
+        for _ in range(count):
+            entity = generate_random_entity(random.choice(choices))
+            click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+        return
+
+    # Connected mode: separate node and edge schemas, generate nodes first,
+    # then wire edge entities to real node IDs.
+    node_schemas = []
+    edge_schemas = []
+    for name in choices:
+        schema = model.get(name)
+        if schema is None:
+            raise click.ClickException(f"Unknown schema: {name}")
+        if schema.edge:
+            edge_schemas.append(name)
+        else:
+            node_schemas.append(name)
+
+    if not edge_schemas:
+        raise click.ClickException(
+            "--connected requires at least one edge schema "
+            "(e.g. Directorship, Ownership, Associate)."
+        )
+    if not node_schemas:
+        raise click.ClickException(
+            "--connected requires at least one non-edge schema "
+            "(e.g. Person, Company)."
+        )
+
+    # Generate node entities and collect their IDs by schema
+    entity_pool = defaultdict(list)
     for _ in range(count):
-        entity = generate_random_entity(random.choice(choices))
-        click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+        for schema_name in node_schemas:
+            entity = generate_random_entity(schema_name)
+            entity_pool[schema_name].append(entity.id)
+            click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+
+    # Generate edge entities wired to the node pool
+    for _ in range(count):
+        for schema_name in edge_schemas:
+            entity = generate_random_entity(schema_name, entity_pool=entity_pool)
+            click.echo(message=json.dumps(entity.to_dict()), file=outfile)
 
 
 if __name__ == "__main__":
