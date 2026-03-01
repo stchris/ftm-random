@@ -25,3 +25,8 @@ testpaths = ["tests"]
 
 [tool.ruff]
 target-version = "py313"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]

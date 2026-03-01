@@ -1,0 +1,34 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-toml
+    - id: check-yaml
+    - id: mixed-line-ending
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.12.0
+  hooks:
+    - id: ruff
+      args: [ --fix ]
+      always_run: true
+    - id: ruff-format
+      always_run: true
+
+- repo: https://github.com/astral-sh/uv-pre-commit
+  rev: 0.10.7
+  hooks:
+      - id: uv-lock
+
+- repo: local
+  hooks:
+    - id: pytest
+      name: pytest
+      entry: uv run pytest
+      language: system
+      types: [python]
+      pass_filenames: false
+      args: [ -v ]
+      always_run: true

@@ -4,7 +4,7 @@ Generate random [followthemoney](https://followthemoney.tech) entities.
 
 # Usage
 
-Run with `uvx` (requires [uv](https://docs.astral.sh/uv/)).
+Run it with `uvx` (requires [uv](https://docs.astral.sh/uv/)).
 
 ```
 $ uvx ftm-random
@@ -35,3 +35,19 @@ Options:
   --help           Show this message and exit.
 ```
 <!-- help-end -->
+
+# Development
+
+This project uses [uv](https://docs.astral.sh/uv) and [prek](https://prek.j178.dev/).
+
+Run tests with:
+
+```
+$ uv run pytest
+```
+
+or run tests and linters with:
+
+```
+$ prek run
+```
