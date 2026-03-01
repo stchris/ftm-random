@@ -1,17 +1,17 @@
+import json
+import random
 import warnings
+from collections import defaultdict
+
+import click
+from faker import Faker
 
 # Suppress the warning message from requests, which is very cautious with
 # newer versions of urllib3 and chardet. Must be set before importing
 # anything that pulls in requests.
 warnings.filterwarnings("ignore", message="urllib3", module="requests")
 
-import json
-import random
-from collections import defaultdict
-
-import click
-from faker import Faker
-from followthemoney import model
+from followthemoney import model  # noqa: E402
 
 fake = Faker()
 
@@ -119,7 +119,10 @@ def generate_random_entity(schema_name, entity_pool=None):
     help="Link edge entities (e.g. Directorship) to other generated entities.",
 )
 @click.option(
-    "--outfile", "outfile", default=None, help="JSONL output file (leave this out for STDOUT)"
+    "--outfile",
+    "outfile",
+    default=None,
+    help="JSONL output file (leave this out for STDOUT)",
 )
 @click.option(
     "--list",
@@ -178,17 +181,25 @@ def generate_entities(
             "--connected requires at least one non-edge schema (e.g. Person, Company)."
         )
 
+    # Distribute count across all schemas (nodes first, then edges).
+    all_schemas = node_schemas + edge_schemas
+    num_schemas = len(all_schemas)
+    base, remainder = divmod(count, num_schemas)
+    schema_counts = {name: base for name in all_schemas}
+    for i in range(remainder):
+        schema_counts[all_schemas[i]] += 1
+
     # Generate node entities and collect their IDs by schema
     entity_pool = defaultdict(list)
-    for _ in range(count):
-        for schema_name in node_schemas:
+    for schema_name in node_schemas:
+        for _ in range(schema_counts[schema_name]):
             entity = generate_random_entity(schema_name)
             entity_pool[schema_name].append(entity.id)
             click.echo(message=json.dumps(entity.to_dict()), file=outfile)
 
     # Generate edge entities wired to the node pool
-    for _ in range(count):
-        for schema_name in edge_schemas:
+    for schema_name in edge_schemas:
+        for _ in range(schema_counts[schema_name]):
             entity = generate_random_entity(schema_name, entity_pool=entity_pool)
             click.echo(message=json.dumps(entity.to_dict()), file=outfile)
 

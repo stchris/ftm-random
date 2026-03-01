@@ -104,12 +104,8 @@ class TestConnectedCLI:
         )
         assert result.exit_code == 0
         entities = parse_output(result)
-        # 1 Person + 1 Company + 1 Directorship = 3
-        assert len(entities) == 3
-        schemas = [e["schema"] for e in entities]
-        assert schemas.count("Person") == 1
-        assert schemas.count("Company") == 1
-        assert schemas.count("Directorship") == 1
+        # --count defaults to 1, so 1 entity total
+        assert len(entities) == 1
 
     def test_connected_with_count(self):
         result = runner.invoke(
@@ -123,12 +119,12 @@ class TestConnectedCLI:
                 "Directorship",
                 "--connected",
                 "--count",
-                "3",
+                "9",
             ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
-        # 3 Person + 3 Company + 3 Directorship = 9
+        # --count 9 with 3 schemas = 3 per schema
         assert len(entities) == 9
         schemas = [e["schema"] for e in entities]
         assert schemas.count("Person") == 3
@@ -199,11 +195,13 @@ class TestConnectedCLI:
                 "Company",
                 "--connected",
                 "--count",
-                "2",
+                "6",
             ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
+        # --count 6 with 3 schemas = 2 per schema
+        assert len(entities) == 6
         schemas = [e["schema"] for e in entities]
         # All node schemas should appear before any edge schema
         last_node_idx = max(
@@ -242,14 +240,16 @@ class TestConnectedCLI:
                 "Ownership",
                 "--connected",
                 "--count",
-                "2",
+                "8",
             ],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
         schemas = [e["schema"] for e in entities]
-        # 2 Person + 2 Company + 2 Directorship + 2 Ownership = 8
+        # --count 8 with 4 schemas = 2 per schema
         assert len(entities) == 8
+        assert schemas.count("Person") == 2
+        assert schemas.count("Company") == 2
         assert schemas.count("Directorship") == 2
         assert schemas.count("Ownership") == 2
 
