@@ -29,7 +29,7 @@ Options:
   --random-schema  Use a random schema for each entity.
   --connected      Link edge entities (e.g. Directorship) to other generated
                    entities.
-  --outfile TEXT   JSONL output file or '-' for STDOUT
+  --outfile TEXT   JSONL output file (leave this out for STDOUT)
   --list           List all available FTM schemas with their type and
                    description.
   --help           Show this message and exit.

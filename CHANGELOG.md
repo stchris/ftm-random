@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2026-03-01
+
+### Features
+
+- Add prek
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.2.4 [skip ci]
+- Slight update to the README
+- Loosen up ftm dependency
+- Remove end-of-file-fixer
+- Prek needs uv
+- Release 0.3.0
+
+### Other
+
+- Help for outfile flag was wrong
+- Make --count work as a total when multiple connected entities are involved
+
 ## [0.2.4] - 2026-02-28
 
 ### Other
