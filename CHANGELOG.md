@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-03-04
+
+### Bug Fixes
+
+- Exclude abstract schemas from --random-schema choices
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.3.0 [skip ci]
+
+### Other
+
+- Merge pull request #12 from stchris/claude/fix-random-schema-abstract-vmYqw
+
+Exclude abstract schemas from --random-schema option
+
 ## [0.3.0] - 2026-03-01
 
 ### Features
