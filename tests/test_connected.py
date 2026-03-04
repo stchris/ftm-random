@@ -299,3 +299,23 @@ class TestListSchemata:
         # Output should not be valid JSONL (no entity lines)
         for line in result.output.splitlines():
             assert not line.startswith("{")
+
+
+# ---------------------------------------------------------------------------
+# --random-schema
+# ---------------------------------------------------------------------------
+
+
+class TestRandomSchema:
+    ABSTRACT_SCHEMAS = {"Thing", "Analyzable", "Value", "Interval", "Interest"}
+
+    def test_random_schema_excludes_abstract(self):
+        result = runner.invoke(
+            generate_entities,
+            ["--random-schema", "--count", "200"],
+        )
+        assert result.exit_code == 0
+        entities = parse_output(result)
+        assert len(entities) == 200
+        schemas_used = {e["schema"] for e in entities}
+        assert schemas_used.isdisjoint(self.ABSTRACT_SCHEMAS)

@@ -148,7 +148,9 @@ def generate_entities(
         return
 
     if random_schema:
-        choices = list(model.schemata.keys())
+        choices = [
+            name for name, schema in model.schemata.items() if not schema.abstract
+        ]
     else:
         choices = list(schemata)
 
