@@ -302,6 +302,73 @@ class TestListSchemata:
 
 
 # ---------------------------------------------------------------------------
+# --count-per-schema
+# ---------------------------------------------------------------------------
+
+
+class TestCountPerSchema:
+    def test_single_schema(self):
+        result = runner.invoke(
+            generate_entities,
+            ["--schema", "Person", "--count-per-schema", "3"],
+        )
+        assert result.exit_code == 0
+        entities = parse_output(result)
+        assert len(entities) == 3
+        assert all(e["schema"] == "Person" for e in entities)
+
+    def test_multiple_schemas(self):
+        result = runner.invoke(
+            generate_entities,
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--count-per-schema",
+                "4",
+            ],
+        )
+        assert result.exit_code == 0
+        entities = parse_output(result)
+        assert len(entities) == 8
+        schemas = [e["schema"] for e in entities]
+        assert schemas.count("Person") == 4
+        assert schemas.count("Company") == 4
+
+    def test_connected_with_count_per_schema(self):
+        result = runner.invoke(
+            generate_entities,
+            [
+                "--schema",
+                "Person",
+                "--schema",
+                "Company",
+                "--schema",
+                "Directorship",
+                "--connected",
+                "--count-per-schema",
+                "2",
+            ],
+        )
+        assert result.exit_code == 0
+        entities = parse_output(result)
+        assert len(entities) == 6
+        schemas = [e["schema"] for e in entities]
+        assert schemas.count("Person") == 2
+        assert schemas.count("Company") == 2
+        assert schemas.count("Directorship") == 2
+
+    def test_error_with_random_schema(self):
+        result = runner.invoke(
+            generate_entities,
+            ["--random-schema", "--count-per-schema", "5"],
+        )
+        assert result.exit_code != 0
+        assert "--count-per-schema" in result.output
+
+
+# ---------------------------------------------------------------------------
 # --random-schema
 # ---------------------------------------------------------------------------
 
