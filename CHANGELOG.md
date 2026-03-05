@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2026-03-05
+
+### Features
+
+- Add a --count-per-schema flag
+
+This overrides the global --count and generates as many entities
+per given schema. It works with --connected but not with --random-schema.
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.4.0 [skip ci]
+
+### Other
+
+- Merge pull request #13 from stchris/count-per-schema
+
+Add a --count-per-schema flag
+
 ## [0.4.0] - 2026-03-04
 
 ### Bug Fixes
