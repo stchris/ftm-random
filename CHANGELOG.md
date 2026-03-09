@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2026-03-09
+
+### Improvements
+
+- Update followthemoney dependency to 4.6.0
+
+
+- Update uv.lock for followthemoney 4.6.0
+
+
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.5.0 [skip ci]
+
+### Other
+
+- Merge pull request #14 from stchris/claude/update-followthemoney-4.6.0-ZZgwT
+
 ## [0.5.0] - 2026-03-05
 
 ### Features
