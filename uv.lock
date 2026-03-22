@@ -166,7 +166,7 @@ wheels = [
 
 [[package]]
 name = "followthemoney"
-version = "4.6.0"
+version = "4.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "babel" },
@@ -187,7 +187,7 @@ dependencies = [
     { name = "sqlalchemy", extra = ["mypy"] },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f7/e6/70a451228c143c422c0d886f89d40dd69f2a910e5c12d3cb40c0aa49cb99/followthemoney-4.6.0-py3-none-any.whl", hash = "sha256:0cbb79194a4ce1bae81553f14a42ce281051e2056a330aea6f9419be37a9ba4b", size = 490655, upload-time = "2026-03-08T20:49:12.071Z" },
+    { url = "https://files.pythonhosted.org/packages/76/9b/7a51da61562df9ba0edecdd3511ae2411c6ebb884cd43967bff378953f38/followthemoney-4.7.0-py3-none-any.whl", hash = "sha256:261f2e66dbc0518c7a79fecacc86a45a3d5d10ef816d966eb4b2462a66717a90", size = 490884, upload-time = "2026-03-19T14:45:47.889Z" },
 ]
 
 [[package]]
@@ -215,7 +215,7 @@ dev = [
 requires-dist = [
     { name = "click", specifier = ">=8.3.1" },
     { name = "faker", specifier = ">=40.5.1" },
-    { name = "followthemoney", specifier = ">=4.6.0" },
+    { name = "followthemoney", specifier = ">=4.7.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9" },
 ]
