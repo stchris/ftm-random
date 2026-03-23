@@ -250,6 +250,96 @@ def connected(count, count_per_schema, schemata, random_schema, outfile):
             click.echo(message=json.dumps(ent.to_dict()), file=outfile)
 
 
+@cli.command()
+@click.option("--count", default=10, help="Number of Email entities to generate.")
+@click.option(
+    "--contacts",
+    default=10,
+    help="Number of contact Person entities.",
+)
+@click.option(
+    "--outfile",
+    "outfile",
+    default=None,
+    help="JSONL output file (leave this out for STDOUT)",
+)
+def inbox(count, contacts, outfile):
+    """Generate a realistic email inbox for one Person entity.
+
+    Generates one owner Person, a set of contact Persons, and Email entities
+    where the owner appears in the From, To, or Cc field of every email.
+    """
+    # Generate the owner Person with a fixed email address
+    owner = generate_random_entity("Person")
+    owner_email = fake.email()
+    click.echo(message=json.dumps(owner.to_dict()), file=outfile)
+
+    # Generate contact Persons with email addresses
+    contact_emails = []
+    for _ in range(contacts):
+        contact = generate_random_entity("Person")
+        contact_emails.append((contact, fake.email()))
+        click.echo(message=json.dumps(contact.to_dict()), file=outfile)
+
+    if not contact_emails:
+        raise click.ClickException("Need at least one contact to generate emails.")
+
+    emails_only = [e for _, e in contact_emails]
+
+    # Generate Email entities
+    for _ in range(count):
+        email_entity = model.make_entity("Email")
+
+        # Subject with reply/forward probabilities
+        base_subject = fake.sentence(nb_words=random.randint(3, 8)).rstrip(".")
+        r = random.random()
+        if r < 0.70:
+            subject = f"Re: {base_subject}"
+        elif r < 0.85:
+            subject = f"Fwd: {base_subject}"
+        else:
+            subject = base_subject
+        email_entity.add("subject", subject)
+
+        email_entity.add(
+            "date", fake.date_between(start_date="-5y", end_date="today").isoformat()
+        )
+        email_entity.add("bodyText", fake.paragraph())
+
+        # Owner appears in From, To, or Cc of every email
+        owner_role = random.choice(["from", "to", "cc"])
+        email_entity.add(owner_role, owner_email)
+
+        # 75%: between two entities; 25%: more participants
+        if random.random() < 0.75:
+            other = random.choice(emails_only)
+            if owner_role == "from":
+                email_entity.add("to", other)
+            elif owner_role == "to":
+                email_entity.add("from", other)
+            else:  # cc: need someone in both from and to
+                other2 = random.choice(emails_only)
+                email_entity.add("from", other)
+                email_entity.add("to", other2)
+        else:
+            num_others = random.randint(2, min(5, len(emails_only)))
+            others = random.sample(emails_only, num_others)
+            assigned_from = owner_role == "from"
+            assigned_to = owner_role == "to"
+            for addr in others:
+                if not assigned_from:
+                    email_entity.add("from", addr)
+                    assigned_from = True
+                elif not assigned_to:
+                    email_entity.add("to", addr)
+                    assigned_to = True
+                else:
+                    email_entity.add(random.choice(["to", "cc"]), addr)
+
+        email_entity.make_id(fake.uuid4())
+        click.echo(message=json.dumps(email_entity.to_dict()), file=outfile)
+
+
 @cli.command(name="list")
 def list_schemata():
     """List all available FTM schemata with their type and description."""
