@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2026-03-23
+
+### Features
+
+- Add an integration test against `followthemoney validate`.
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.6.0 [skip ci]
+
+### Other
+
+- Followthemoney 4.7.0 support
+- Refactor CLI to use subcommands: entity and list ([#15](https://github.com/stchris/ftm-random/issues/15))
+- Move connected into its own subcommand
+- S/schemas/schemata
+- Subcommand inbox
+
 ## [0.6.0] - 2026-03-09
 
 ### Improvements

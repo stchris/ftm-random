@@ -19,23 +19,18 @@ $ pip install ftm-random
 <!-- help-start -->
 ```
 $ ftm-random --help
-Usage: ftm-random [OPTIONS]
+Usage: ftm-random [OPTIONS] COMMAND [ARGS]...
 
   Generate random followthemoney entities.
 
 Options:
-  --count INTEGER             Number of entities to generate.
-  --count-per-schema INTEGER  Number of entities to generate per schema
-                              (overrides --count).
-  --schema TEXT               FTM schema name (can be specified multiple
-                              times).
-  --random-schema             Use a random schema for each entity.
-  --connected                 Link edge entities (e.g. Directorship) to other
-                              generated entities.
-  --outfile TEXT              JSONL output file (leave this out for STDOUT)
-  --list                      List all available FTM schemas with their type
-                              and description.
-  --help                      Show this message and exit.
+  --help  Show this message and exit.
+
+Commands:
+  connected  Generate connected random followthemoney entities.
+  entities   Generate random followthemoney entities.
+  inbox      Generate a realistic email inbox for one Person entity.
+  list       List all available FTM schemata with their type and...
 ```
 <!-- help-end -->
 
