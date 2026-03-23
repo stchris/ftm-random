@@ -29,7 +29,7 @@ class TestPickEntityId:
         picked = _pick_entity_id(prop, pool)
         assert picked in pool["Person"]
 
-    def test_picks_across_multiple_compatible_schemas(self):
+    def test_picks_across_multiple_compatible_schemata(self):
         prop = model.get("Directorship").get("director")  # range = LegalEntity
         pool = {"Person": ["id-p"], "Company": ["id-c"]}
         results = {_pick_entity_id(prop, pool) for _ in range(50)}
@@ -124,12 +124,12 @@ class TestConnectedCLI:
         )
         assert result.exit_code == 0
         entities = parse_output(result)
-        # --count 9 with 3 schemas = 3 per schema
+        # --count 9 with 3 schemata = 3 per schema
         assert len(entities) == 9
-        schemas = [e["schema"] for e in entities]
-        assert schemas.count("Person") == 3
-        assert schemas.count("Company") == 3
-        assert schemas.count("Directorship") == 3
+        schemata = [e["schema"] for e in entities]
+        assert schemata.count("Person") == 3
+        assert schemata.count("Company") == 3
+        assert schemata.count("Directorship") == 3
 
     def test_edge_entities_reference_node_ids(self):
         result = runner.invoke(
@@ -200,14 +200,14 @@ class TestConnectedCLI:
         )
         assert result.exit_code == 0
         entities = parse_output(result)
-        # --count 6 with 3 schemas = 2 per schema
+        # --count 6 with 3 schemata = 2 per schema
         assert len(entities) == 6
-        schemas = [e["schema"] for e in entities]
-        # All node schemas should appear before any edge schema
+        schemata = [e["schema"] for e in entities]
+        # All node schemata should appear before any edge schema
         last_node_idx = max(
-            i for i, s in enumerate(schemas) if s in ("Person", "Company")
+            i for i, s in enumerate(schemata) if s in ("Person", "Company")
         )
-        first_edge_idx = min(i for i, s in enumerate(schemas) if s == "Directorship")
+        first_edge_idx = min(i for i, s in enumerate(schemata) if s == "Directorship")
         assert last_node_idx < first_edge_idx
 
     def test_error_no_edge_schema(self):
@@ -226,7 +226,7 @@ class TestConnectedCLI:
         assert result.exit_code != 0
         assert "non-edge schema" in result.output
 
-    def test_multiple_edge_schemas(self):
+    def test_multiple_edge_schemata(self):
         result = runner.invoke(
             cli,
             [
@@ -245,13 +245,13 @@ class TestConnectedCLI:
         )
         assert result.exit_code == 0
         entities = parse_output(result)
-        schemas = [e["schema"] for e in entities]
-        # --count 8 with 4 schemas = 2 per schema
+        schemata = [e["schema"] for e in entities]
+        # --count 8 with 4 schemata = 2 per schema
         assert len(entities) == 8
-        assert schemas.count("Person") == 2
-        assert schemas.count("Company") == 2
-        assert schemas.count("Directorship") == 2
-        assert schemas.count("Ownership") == 2
+        assert schemata.count("Person") == 2
+        assert schemata.count("Company") == 2
+        assert schemata.count("Directorship") == 2
+        assert schemata.count("Ownership") == 2
 
     def test_without_connected_flag_unchanged(self):
         result = runner.invoke(
@@ -317,7 +317,7 @@ class TestCountPerSchema:
         assert len(entities) == 3
         assert all(e["schema"] == "Person" for e in entities)
 
-    def test_multiple_schemas(self):
+    def test_multiple_schemata(self):
         result = runner.invoke(
             cli,
             [
@@ -333,9 +333,9 @@ class TestCountPerSchema:
         assert result.exit_code == 0
         entities = parse_output(result)
         assert len(entities) == 8
-        schemas = [e["schema"] for e in entities]
-        assert schemas.count("Person") == 4
-        assert schemas.count("Company") == 4
+        schemata = [e["schema"] for e in entities]
+        assert schemata.count("Person") == 4
+        assert schemata.count("Company") == 4
 
     def test_connected_with_count_per_schema(self):
         result = runner.invoke(
@@ -355,10 +355,10 @@ class TestCountPerSchema:
         assert result.exit_code == 0
         entities = parse_output(result)
         assert len(entities) == 6
-        schemas = [e["schema"] for e in entities]
-        assert schemas.count("Person") == 2
-        assert schemas.count("Company") == 2
-        assert schemas.count("Directorship") == 2
+        schemata = [e["schema"] for e in entities]
+        assert schemata.count("Person") == 2
+        assert schemata.count("Company") == 2
+        assert schemata.count("Directorship") == 2
 
     def test_error_with_random_schema(self):
         result = runner.invoke(
@@ -385,5 +385,5 @@ class TestRandomSchema:
         assert result.exit_code == 0
         entities = parse_output(result)
         assert len(entities) == 200
-        schemas_used = {e["schema"] for e in entities}
-        assert schemas_used.isdisjoint(self.ABSTRACT_SCHEMAS)
+        schemata_used = {e["schema"] for e in entities}
+        assert schemata_used.isdisjoint(self.ABSTRACT_SCHEMAS)

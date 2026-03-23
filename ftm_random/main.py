@@ -200,51 +200,51 @@ def connected(count, count_per_schema, schemata, random_schema, outfile):
     else:
         choices = list(schemata)
 
-    # Separate node and edge schemas, generate nodes first,
+    # Separate node and edge schemata, generate nodes first,
     # then wire edge entities to real node IDs.
-    node_schemas = []
-    edge_schemas = []
+    node_schemata = []
+    edge_schemata = []
     for name in choices:
         schema = model.get(name)
         if schema is None:
             raise click.ClickException(f"Unknown schema: {name}")
         if schema.edge:
-            edge_schemas.append(name)
+            edge_schemata.append(name)
         else:
-            node_schemas.append(name)
+            node_schemata.append(name)
 
-    if not edge_schemas:
+    if not edge_schemata:
         raise click.ClickException(
             "connected requires at least one edge schema "
             "(e.g. Directorship, Ownership, Associate)."
         )
-    if not node_schemas:
+    if not node_schemata:
         raise click.ClickException(
             "connected requires at least one non-edge schema (e.g. Person, Company)."
         )
 
     # Determine per-schema counts.
-    all_schemas = node_schemas + edge_schemas
+    all_schemata = node_schemata + edge_schemata
     if count_per_schema is not None:
-        schema_counts = {name: count_per_schema for name in all_schemas}
+        schema_counts = {name: count_per_schema for name in all_schemata}
     else:
-        # Distribute count across all schemas (nodes first, then edges).
-        num_schemas = len(all_schemas)
-        base, remainder = divmod(count, num_schemas)
-        schema_counts = {name: base for name in all_schemas}
+        # Distribute count across all schemata (nodes first, then edges).
+        num_schemata = len(all_schemata)
+        base, remainder = divmod(count, num_schemata)
+        schema_counts = {name: base for name in all_schemata}
         for i in range(remainder):
-            schema_counts[all_schemas[i]] += 1
+            schema_counts[all_schemata[i]] += 1
 
     # Generate node entities and collect their IDs by schema
     entity_pool = defaultdict(list)
-    for schema_name in node_schemas:
+    for schema_name in node_schemata:
         for _ in range(schema_counts[schema_name]):
             ent = generate_random_entity(schema_name)
             entity_pool[schema_name].append(ent.id)
             click.echo(message=json.dumps(ent.to_dict()), file=outfile)
 
     # Generate edge entities wired to the node pool
-    for schema_name in edge_schemas:
+    for schema_name in edge_schemata:
         for _ in range(schema_counts[schema_name]):
             ent = generate_random_entity(schema_name, entity_pool=entity_pool)
             click.echo(message=json.dumps(ent.to_dict()), file=outfile)
@@ -252,7 +252,7 @@ def connected(count, count_per_schema, schemata, random_schema, outfile):
 
 @cli.command(name="list")
 def list_schemata():
-    """List all available FTM schemas with their type and description."""
+    """List all available FTM schemata with their type and description."""
     col_name = 20
     col_type = 6
     header = f"{'Schema':<{col_name}}  {'Type':<{col_type}}  Description"

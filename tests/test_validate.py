@@ -10,7 +10,7 @@ from ftm_random.main import cli
 
 runner = CliRunner()
 
-# All non-abstract schemas
+# All non-abstract schemata
 ALL_SCHEMAS = [name for name, s in model.schemata.items() if not s.abstract]
 
 
@@ -41,9 +41,9 @@ def normalize(entity):
 
 
 class TestValidateAllSchemas:
-    """Generate 5 entities per schema across all non-abstract schemas and validate."""
+    """Generate 5 entities per schema across all non-abstract schemata and validate."""
 
-    def test_all_schemas_validate_unchanged(self):
+    def test_all_schemata_validate_unchanged(self):
         args = ["entities"]
         for name in ALL_SCHEMAS:
             args += ["--schema", name]
