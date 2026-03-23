@@ -44,7 +44,7 @@ class TestValidateAllSchemas:
     """Generate 5 entities per schema across all non-abstract schemas and validate."""
 
     def test_all_schemas_validate_unchanged(self):
-        args = ["entity"]
+        args = ["entities"]
         for name in ALL_SCHEMAS:
             args += ["--schema", name]
         args += ["--count-per-schema", "100"]
@@ -71,7 +71,7 @@ class TestValidateConnected:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -107,7 +107,7 @@ class TestValidateRandomSchema:
     def test_random_schema_entities_validate_unchanged(self):
         result = runner.invoke(
             cli,
-            ["entity", "--random-schema", "--count", "1000"],
+            ["entities", "--random-schema", "--count", "1000"],
         )
         assert result.exit_code == 0
 

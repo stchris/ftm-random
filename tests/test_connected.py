@@ -93,7 +93,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -112,7 +112,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -137,7 +137,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -167,7 +167,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -191,7 +191,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -218,7 +218,7 @@ class TestConnectedCLI:
     def test_error_no_edge_schema(self):
         result = runner.invoke(
             cli,
-            ["entity", "--schema", "Person", "--schema", "Company", "--connected"],
+            ["entities", "--schema", "Person", "--schema", "Company", "--connected"],
         )
         assert result.exit_code != 0
         assert "edge schema" in result.output
@@ -226,7 +226,7 @@ class TestConnectedCLI:
     def test_error_no_node_schema(self):
         result = runner.invoke(
             cli,
-            ["entity", "--schema", "Directorship", "--connected"],
+            ["entities", "--schema", "Directorship", "--connected"],
         )
         assert result.exit_code != 0
         assert "non-edge schema" in result.output
@@ -235,7 +235,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -262,7 +262,7 @@ class TestConnectedCLI:
     def test_without_connected_flag_unchanged(self):
         result = runner.invoke(
             cli,
-            ["entity", "--schema", "Person", "--count", "3"],
+            ["entities", "--schema", "Person", "--count", "3"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -316,7 +316,7 @@ class TestCountPerSchema:
     def test_single_schema(self):
         result = runner.invoke(
             cli,
-            ["entity", "--schema", "Person", "--count-per-schema", "3"],
+            ["entities", "--schema", "Person", "--count-per-schema", "3"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -327,7 +327,7 @@ class TestCountPerSchema:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -347,7 +347,7 @@ class TestCountPerSchema:
         result = runner.invoke(
             cli,
             [
-                "entity",
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -370,7 +370,7 @@ class TestCountPerSchema:
     def test_error_with_random_schema(self):
         result = runner.invoke(
             cli,
-            ["entity", "--random-schema", "--count-per-schema", "5"],
+            ["entities", "--random-schema", "--count-per-schema", "5"],
         )
         assert result.exit_code != 0
         assert "--count-per-schema" in result.output
@@ -387,7 +387,7 @@ class TestRandomSchema:
     def test_random_schema_excludes_abstract(self):
         result = runner.invoke(
             cli,
-            ["entity", "--random-schema", "--count", "200"],
+            ["entities", "--random-schema", "--count", "200"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)

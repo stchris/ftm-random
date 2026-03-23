@@ -136,7 +136,7 @@ def cli():
     default=None,
     help="JSONL output file (leave this out for STDOUT)",
 )
-def entity(count, count_per_schema, schemata, random_schema, connected, outfile):
+def entities(count, count_per_schema, schemata, random_schema, connected, outfile):
     """Generate random followthemoney entities."""
     if count_per_schema is not None and random_schema:
         raise click.ClickException(
