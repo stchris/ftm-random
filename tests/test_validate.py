@@ -71,7 +71,7 @@ class TestValidateConnected:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
@@ -82,7 +82,6 @@ class TestValidateConnected:
                 "Ownership",
                 "--schema",
                 "Associate",
-                "--connected",
                 "--count-per-schema",
                 "10",
             ],

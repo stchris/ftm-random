@@ -125,18 +125,12 @@ def cli():
     help="Use a random schema for each entity.",
 )
 @click.option(
-    "--connected",
-    is_flag=True,
-    default=False,
-    help="Link edge entities (e.g. Directorship) to other generated entities.",
-)
-@click.option(
     "--outfile",
     "outfile",
     default=None,
     help="JSONL output file (leave this out for STDOUT)",
 )
-def entities(count, count_per_schema, schemata, random_schema, connected, outfile):
+def entities(count, count_per_schema, schemata, random_schema, outfile):
     """Generate random followthemoney entities."""
     if count_per_schema is not None and random_schema:
         raise click.ClickException(
@@ -150,19 +144,63 @@ def entities(count, count_per_schema, schemata, random_schema, connected, outfil
     else:
         choices = list(schemata)
 
-    if not connected:
-        if count_per_schema is not None:
-            for schema_name in choices:
-                for _ in range(count_per_schema):
-                    ent = generate_random_entity(schema_name)
-                    click.echo(message=json.dumps(ent.to_dict()), file=outfile)
-        else:
-            for _ in range(count):
-                ent = generate_random_entity(random.choice(choices))
+    if count_per_schema is not None:
+        for schema_name in choices:
+            for _ in range(count_per_schema):
+                ent = generate_random_entity(schema_name)
                 click.echo(message=json.dumps(ent.to_dict()), file=outfile)
-        return
+    else:
+        for _ in range(count):
+            ent = generate_random_entity(random.choice(choices))
+            click.echo(message=json.dumps(ent.to_dict()), file=outfile)
 
-    # Connected mode: separate node and edge schemas, generate nodes first,
+
+@cli.command()
+@click.option("--count", default=1, help="Number of entities to generate.")
+@click.option(
+    "--count-per-schema",
+    "count_per_schema",
+    default=None,
+    type=int,
+    help="Number of entities to generate per schema (overrides --count).",
+)
+@click.option(
+    "--schema",
+    "schemata",
+    default=("Person", "Directorship"),
+    multiple=True,
+    help="FTM schema name (can be specified multiple times).",
+)
+@click.option(
+    "--random-schema",
+    is_flag=True,
+    default=False,
+    help="Use a random schema for each entity.",
+)
+@click.option(
+    "--outfile",
+    "outfile",
+    default=None,
+    help="JSONL output file (leave this out for STDOUT)",
+)
+def connected(count, count_per_schema, schemata, random_schema, outfile):
+    """Generate connected random followthemoney entities.
+
+    Link edge entities (e.g. Directorship) to other generated entities.
+    """
+    if count_per_schema is not None and random_schema:
+        raise click.ClickException(
+            "--count-per-schema cannot be used with --random-schema."
+        )
+
+    if random_schema:
+        choices = [
+            name for name, schema in model.schemata.items() if not schema.abstract
+        ]
+    else:
+        choices = list(schemata)
+
+    # Separate node and edge schemas, generate nodes first,
     # then wire edge entities to real node IDs.
     node_schemas = []
     edge_schemas = []
@@ -177,12 +215,12 @@ def entities(count, count_per_schema, schemata, random_schema, connected, outfil
 
     if not edge_schemas:
         raise click.ClickException(
-            "--connected requires at least one edge schema "
+            "connected requires at least one edge schema "
             "(e.g. Directorship, Ownership, Associate)."
         )
     if not node_schemas:
         raise click.ClickException(
-            "--connected requires at least one non-edge schema (e.g. Person, Company)."
+            "connected requires at least one non-edge schema (e.g. Person, Company)."
         )
 
     # Determine per-schema counts.

@@ -93,14 +93,13 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Company",
                 "--schema",
                 "Directorship",
-                "--connected",
             ],
         )
         assert result.exit_code == 0
@@ -112,14 +111,13 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Company",
                 "--schema",
                 "Directorship",
-                "--connected",
                 "--count",
                 "9",
             ],
@@ -137,14 +135,13 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Company",
                 "--schema",
                 "Directorship",
-                "--connected",
                 "--count",
                 "5",
             ],
@@ -167,12 +164,11 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Associate",
-                "--connected",
                 "--count",
                 "3",
             ],
@@ -191,14 +187,13 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Directorship",
                 "--schema",
                 "Company",
-                "--connected",
                 "--count",
                 "6",
             ],
@@ -218,7 +213,7 @@ class TestConnectedCLI:
     def test_error_no_edge_schema(self):
         result = runner.invoke(
             cli,
-            ["entities", "--schema", "Person", "--schema", "Company", "--connected"],
+            ["connected", "--schema", "Person", "--schema", "Company"],
         )
         assert result.exit_code != 0
         assert "edge schema" in result.output
@@ -226,7 +221,7 @@ class TestConnectedCLI:
     def test_error_no_node_schema(self):
         result = runner.invoke(
             cli,
-            ["entities", "--schema", "Directorship", "--connected"],
+            ["connected", "--schema", "Directorship"],
         )
         assert result.exit_code != 0
         assert "non-edge schema" in result.output
@@ -235,7 +230,7 @@ class TestConnectedCLI:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
@@ -244,7 +239,6 @@ class TestConnectedCLI:
                 "Directorship",
                 "--schema",
                 "Ownership",
-                "--connected",
                 "--count",
                 "8",
             ],
@@ -347,14 +341,13 @@ class TestCountPerSchema:
         result = runner.invoke(
             cli,
             [
-                "entities",
+                "connected",
                 "--schema",
                 "Person",
                 "--schema",
                 "Company",
                 "--schema",
                 "Directorship",
-                "--connected",
                 "--count-per-schema",
                 "2",
             ],
