@@ -6,7 +6,7 @@ import subprocess
 from click.testing import CliRunner
 from followthemoney import model
 
-from ftm_random.main import generate_entities
+from ftm_random.main import cli
 
 runner = CliRunner()
 
@@ -44,12 +44,12 @@ class TestValidateAllSchemas:
     """Generate 5 entities per schema across all non-abstract schemas and validate."""
 
     def test_all_schemas_validate_unchanged(self):
-        args = []
+        args = ["entities"]
         for name in ALL_SCHEMAS:
             args += ["--schema", name]
         args += ["--count-per-schema", "100"]
 
-        result = runner.invoke(generate_entities, args)
+        result = runner.invoke(cli, args)
         assert result.exit_code == 0
 
         entities = parse_output(result)
@@ -69,8 +69,9 @@ class TestValidateConnected:
 
     def test_connected_entities_validate_unchanged(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -105,8 +106,8 @@ class TestValidateRandomSchema:
 
     def test_random_schema_entities_validate_unchanged(self):
         result = runner.invoke(
-            generate_entities,
-            ["--random-schema", "--count", "1000"],
+            cli,
+            ["entities", "--random-schema", "--count", "1000"],
         )
         assert result.exit_code == 0
 

@@ -97,7 +97,12 @@ def generate_random_entity(schema_name, entity_pool=None):
     return entity
 
 
-@click.command()
+@click.group()
+def cli():
+    """Generate random followthemoney entities."""
+
+
+@cli.command()
 @click.option("--count", default=1, help="Number of entities to generate.")
 @click.option(
     "--count-per-schema",
@@ -131,29 +136,8 @@ def generate_random_entity(schema_name, entity_pool=None):
     default=None,
     help="JSONL output file (leave this out for STDOUT)",
 )
-@click.option(
-    "--list",
-    "list_schemata",
-    is_flag=True,
-    default=False,
-    help="List all available FTM schemas with their type and description.",
-)
-def generate_entities(
-    count, count_per_schema, schemata, random_schema, connected, outfile, list_schemata
-):
+def entities(count, count_per_schema, schemata, random_schema, connected, outfile):
     """Generate random followthemoney entities."""
-    if list_schemata:
-        col_name = 20
-        col_type = 6
-        header = f"{'Schema':<{col_name}}  {'Type':<{col_type}}  Description"
-        click.echo(header)
-        click.echo("-" * len(header))
-        for name, schema in sorted(model.schemata.items()):
-            entity_type = "edge" if schema.edge else "node"
-            description = schema.description or ""
-            click.echo(f"{name:<{col_name}}  {entity_type:<{col_type}}  {description}")
-        return
-
     if count_per_schema is not None and random_schema:
         raise click.ClickException(
             "--count-per-schema cannot be used with --random-schema."
@@ -170,12 +154,12 @@ def generate_entities(
         if count_per_schema is not None:
             for schema_name in choices:
                 for _ in range(count_per_schema):
-                    entity = generate_random_entity(schema_name)
-                    click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+                    ent = generate_random_entity(schema_name)
+                    click.echo(message=json.dumps(ent.to_dict()), file=outfile)
         else:
             for _ in range(count):
-                entity = generate_random_entity(random.choice(choices))
-                click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+                ent = generate_random_entity(random.choice(choices))
+                click.echo(message=json.dumps(ent.to_dict()), file=outfile)
         return
 
     # Connected mode: separate node and edge schemas, generate nodes first,
@@ -217,16 +201,30 @@ def generate_entities(
     entity_pool = defaultdict(list)
     for schema_name in node_schemas:
         for _ in range(schema_counts[schema_name]):
-            entity = generate_random_entity(schema_name)
-            entity_pool[schema_name].append(entity.id)
-            click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+            ent = generate_random_entity(schema_name)
+            entity_pool[schema_name].append(ent.id)
+            click.echo(message=json.dumps(ent.to_dict()), file=outfile)
 
     # Generate edge entities wired to the node pool
     for schema_name in edge_schemas:
         for _ in range(schema_counts[schema_name]):
-            entity = generate_random_entity(schema_name, entity_pool=entity_pool)
-            click.echo(message=json.dumps(entity.to_dict()), file=outfile)
+            ent = generate_random_entity(schema_name, entity_pool=entity_pool)
+            click.echo(message=json.dumps(ent.to_dict()), file=outfile)
+
+
+@cli.command(name="list")
+def list_schemata():
+    """List all available FTM schemas with their type and description."""
+    col_name = 20
+    col_type = 6
+    header = f"{'Schema':<{col_name}}  {'Type':<{col_type}}  Description"
+    click.echo(header)
+    click.echo("-" * len(header))
+    for name, schema in sorted(model.schemata.items()):
+        entity_type = "edge" if schema.edge else "node"
+        description = schema.description or ""
+        click.echo(f"{name:<{col_name}}  {entity_type:<{col_type}}  {description}")
 
 
 if __name__ == "__main__":
-    generate_entities()
+    cli()

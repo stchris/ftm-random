@@ -5,7 +5,7 @@ from followthemoney import model
 
 from ftm_random.main import (
     _pick_entity_id,
-    generate_entities,
+    cli,
     generate_random_entity,
 )
 
@@ -84,15 +84,16 @@ class TestGenerateRandomEntityConnected:
 
 
 # ---------------------------------------------------------------------------
-# CLI --connected flag
+# entity subcommand --connected flag
 # ---------------------------------------------------------------------------
 
 
 class TestConnectedCLI:
     def test_basic_connected_output(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -109,8 +110,9 @@ class TestConnectedCLI:
 
     def test_connected_with_count(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -133,8 +135,9 @@ class TestConnectedCLI:
 
     def test_edge_entities_reference_node_ids(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -162,8 +165,9 @@ class TestConnectedCLI:
 
     def test_associate_references_persons(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -185,8 +189,9 @@ class TestConnectedCLI:
 
     def test_nodes_emitted_before_edges(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -212,24 +217,25 @@ class TestConnectedCLI:
 
     def test_error_no_edge_schema(self):
         result = runner.invoke(
-            generate_entities,
-            ["--schema", "Person", "--schema", "Company", "--connected"],
+            cli,
+            ["entities", "--schema", "Person", "--schema", "Company", "--connected"],
         )
         assert result.exit_code != 0
         assert "edge schema" in result.output
 
     def test_error_no_node_schema(self):
         result = runner.invoke(
-            generate_entities,
-            ["--schema", "Directorship", "--connected"],
+            cli,
+            ["entities", "--schema", "Directorship", "--connected"],
         )
         assert result.exit_code != 0
         assert "non-edge schema" in result.output
 
     def test_multiple_edge_schemas(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -255,8 +261,8 @@ class TestConnectedCLI:
 
     def test_without_connected_flag_unchanged(self):
         result = runner.invoke(
-            generate_entities,
-            ["--schema", "Person", "--count", "3"],
+            cli,
+            ["entities", "--schema", "Person", "--count", "3"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -265,52 +271,52 @@ class TestConnectedCLI:
 
 
 # ---------------------------------------------------------------------------
-# --list
+# list subcommand
 # ---------------------------------------------------------------------------
 
 
 class TestListSchemata:
     def test_list_exits_cleanly(self):
-        result = runner.invoke(generate_entities, ["--list"])
+        result = runner.invoke(cli, ["list"])
         assert result.exit_code == 0
 
     def test_list_contains_header(self):
-        result = runner.invoke(generate_entities, ["--list"])
+        result = runner.invoke(cli, ["list"])
         assert "Schema" in result.output
         assert "Type" in result.output
         assert "Description" in result.output
 
     def test_list_includes_known_node_schema(self):
-        result = runner.invoke(generate_entities, ["--list"])
+        result = runner.invoke(cli, ["list"])
         lines = result.output.splitlines()
         person_lines = [line for line in lines if line.startswith("Person")]
         assert len(person_lines) == 1
         assert "node" in person_lines[0]
 
     def test_list_includes_known_edge_schema(self):
-        result = runner.invoke(generate_entities, ["--list"])
+        result = runner.invoke(cli, ["list"])
         lines = result.output.splitlines()
         directorship_lines = [line for line in lines if line.startswith("Directorship")]
         assert len(directorship_lines) == 1
         assert "edge" in directorship_lines[0]
 
     def test_list_produces_no_entities(self):
-        result = runner.invoke(generate_entities, ["--list"])
+        result = runner.invoke(cli, ["list"])
         # Output should not be valid JSONL (no entity lines)
         for line in result.output.splitlines():
             assert not line.startswith("{")
 
 
 # ---------------------------------------------------------------------------
-# --count-per-schema
+# entity subcommand --count-per-schema
 # ---------------------------------------------------------------------------
 
 
 class TestCountPerSchema:
     def test_single_schema(self):
         result = runner.invoke(
-            generate_entities,
-            ["--schema", "Person", "--count-per-schema", "3"],
+            cli,
+            ["entities", "--schema", "Person", "--count-per-schema", "3"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
@@ -319,8 +325,9 @@ class TestCountPerSchema:
 
     def test_multiple_schemas(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -338,8 +345,9 @@ class TestCountPerSchema:
 
     def test_connected_with_count_per_schema(self):
         result = runner.invoke(
-            generate_entities,
+            cli,
             [
+                "entities",
                 "--schema",
                 "Person",
                 "--schema",
@@ -361,15 +369,15 @@ class TestCountPerSchema:
 
     def test_error_with_random_schema(self):
         result = runner.invoke(
-            generate_entities,
-            ["--random-schema", "--count-per-schema", "5"],
+            cli,
+            ["entities", "--random-schema", "--count-per-schema", "5"],
         )
         assert result.exit_code != 0
         assert "--count-per-schema" in result.output
 
 
 # ---------------------------------------------------------------------------
-# --random-schema
+# entity subcommand --random-schema
 # ---------------------------------------------------------------------------
 
 
@@ -378,8 +386,8 @@ class TestRandomSchema:
 
     def test_random_schema_excludes_abstract(self):
         result = runner.invoke(
-            generate_entities,
-            ["--random-schema", "--count", "200"],
+            cli,
+            ["entities", "--random-schema", "--count", "200"],
         )
         assert result.exit_code == 0
         entities = parse_output(result)
