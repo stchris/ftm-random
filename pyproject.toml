@@ -18,7 +18,7 @@ build-backend = "hatchling.build"
 packages = ["ftm_random"]
 
 [project.scripts]
-ftm-random = "ftm_random.main:generate_entities"
+ftm-random = "ftm_random.main:cli"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
