@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - 2026-09-23
+
+### Features
+
+- Add Dependabot configuration file
+
+Configured Dependabot for version updates with a weekly schedule.
+
+### Improvements
+
+- Update package-ecosystem to 'uv' in dependabot.yml
+
+### Miscellaneous Tasks
+
+- *(release)* Update README and CHANGELOG for v0.7.0 [skip ci]
+- *(deps)* Bump the uv group across 1 directory with 5 updates
+
+### Other
+
+- Merge pull request #17 from stchris/dependabot/uv/uv-89e991a41d
+
+chore(deps): bump the uv group across 1 directory with 5 updates
+- Bump versions, support ftm 4.11.0
+
 ## [0.7.0] - 2026-03-23
 
 ### Features
