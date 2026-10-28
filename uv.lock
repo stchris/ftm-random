@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 
 [[package]]
@@ -129,12 +129,13 @@ wheels = [
 
 [[package]]
 name = "followthemoney"
-version = "4.11.0"
+version = "4.11.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "babel" },
     { name = "banal" },
     { name = "click" },
+    { name = "idna" },
     { name = "networkx" },
     { name = "normality" },
     { name = "openpyxl" },
@@ -149,9 +150,9 @@ dependencies = [
     { name = "rigour" },
     { name = "sqlalchemy", extra = ["mypy"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ed/ca/de0de8cf4799884e22ffa9b5381b6808b19acd27bbcc22569744b9d5310f/followthemoney-4.11.0.tar.gz", hash = "sha256:6a1f7e01fad3037a8c04c7973a42bd5b0591441caf9d9fe5b0b76dd9000e78f0", size = 435161, upload-time = "2026-09-03T12:28:36.218Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/49/ed/3c1abae555e8c3ee90b7c186eaf808338cfd1ed23c45f1eb6c1d9bdd328f/followthemoney-4.11.1.tar.gz", hash = "sha256:7f03aade3c3fc3777c1800cbcc1ce95c0e2081f8175cea41c6e2c3413d3a5e70", size = 435235, upload-time = "2026-10-21T19:22:57.325Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5b/48/41fb9a0c32c2e5e0db60011871d928c1bb97b9550731ee823c9a552ddd30/followthemoney-4.11.0-py3-none-any.whl", hash = "sha256:9bd561e3ce1fce7eb325c5ae7f14a19eeaf7054537ea88b699065f2830af4259", size = 509862, upload-time = "2026-09-03T12:28:34.339Z" },
+    { url = "https://files.pythonhosted.org/packages/1c/62/5274a94d0f786afeb1b5fb0022e6659cc18d74a664402b37f6b58eff5d24/followthemoney-4.11.1-py3-none-any.whl", hash = "sha256:73282b85b243d20a2becb7c11c61d792bc20a8604d78738e139ed08749853f06", size = 509940, upload-time = "2026-10-21T19:22:55.67Z" },
 ]
 
 [[package]]
@@ -708,7 +709,7 @@ wheels = [
 
 [[package]]
 name = "rigour"
-version = "2.5.0"
+version = "2.6.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jinja2" },
@@ -718,22 +719,22 @@ dependencies = [
     { name = "python-stdnum" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/34/be/6a568edf8f4a69d7f7d3dd7d4e1061cfc5c23e9bfd0a1a211de0b5782baa/rigour-2.5.0.tar.gz", hash = "sha256:c03c4a7b7389604240330071cf461aa2a9c85e3c59011c661ecaddd075e9cf82", size = 4355706, upload-time = "2026-09-10T13:18:30.629Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e5/3c/367a62b1ce549748f36d5fa85a2d0a2789128d7b4ad85a8426fedfc80a7e/rigour-2.6.1.tar.gz", hash = "sha256:f5e3736252f11b90ac32387f6fa02182a021dfd28ad90c6065d8e5bca0b2e8e5", size = 5161909, upload-time = "2026-10-21T20:10:16.27Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/71/f1/a554c4f2141d1ae4a2d410bd868d626a80201a72390de266c4606ca6ce93/rigour-2.5.0-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:c424ea8ab0db2d7bc9a6c702d04aed432b756960b739d47affbb76e7a0903134", size = 5782187, upload-time = "2026-09-10T13:18:02.338Z" },
-    { url = "https://files.pythonhosted.org/packages/8d/a2/ba9582e3529a8874352374650e5296ba3abe46f3d6f30eb2c31896f7a71c/rigour-2.5.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:949897fe4b5280291f094ca199807984a1dd8e99ba074dbe30bf890852616886", size = 5712347, upload-time = "2026-09-10T13:18:04.407Z" },
-    { url = "https://files.pythonhosted.org/packages/a7/d1/f9019d1209e0ad91ccf444659f6f1a7c8763393d6863c626a6a08c812573/rigour-2.5.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:49399da2e73eea7f79c3895eaafa80b090dafb32d0fc2d134d1d88c22724d601", size = 5946790, upload-time = "2026-09-10T13:18:06.641Z" },
-    { url = "https://files.pythonhosted.org/packages/43/01/ad8f305923abe2c2f2e7b9dced32434af16071ce9ac468854b1b866497cc/rigour-2.5.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:085c7379cb2495011e2970b99946e44abeee018c687a64163baa58f20fae8eec", size = 5979302, upload-time = "2026-09-10T13:18:08.733Z" },
-    { url = "https://files.pythonhosted.org/packages/d4/ab/a59433cdd7f37515441a9a85dbc1574ac18b96a4618d035c1b8b836133f9/rigour-2.5.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:fc93552dd79899b2618c31b07cc12a51d8a2703fc008b4047eede25eb14e8da2", size = 6143562, upload-time = "2026-09-10T13:18:10.545Z" },
-    { url = "https://files.pythonhosted.org/packages/0c/e7/92a829810318a8e811f01b757c38335f810a414584fe9910de2baceb57c7/rigour-2.5.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:e6ee2b7386b5c0ccbfe6ed7eaeaeba7a3d350a4e3795e449cb686323a442d65c", size = 6278363, upload-time = "2026-09-10T13:18:12.305Z" },
-    { url = "https://files.pythonhosted.org/packages/88/30/59ee4e7d89281907cafca39c7069342dd23375d776c31459dcae234b5b55/rigour-2.5.0-cp313-cp313-win_amd64.whl", hash = "sha256:24e3c22ea64715ab53c950c48bb2b620801a8a91ca04c1c7b51d3ee106767cb7", size = 5628218, upload-time = "2026-09-10T13:18:14.624Z" },
-    { url = "https://files.pythonhosted.org/packages/d3/32/334fb89ac703dab69e08ecd0a570d4428c28b2d1345c6f3aafbae47ac61e/rigour-2.5.0-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:fe9c597dc0a8875d42314511584f43afc5b07dd5c649db46ea8230e22497d183", size = 5783947, upload-time = "2026-09-10T13:18:16.446Z" },
-    { url = "https://files.pythonhosted.org/packages/ab/31/84b7b7ee291d55a8acc7258046899b6f51b38cced139db9788779a9daa85/rigour-2.5.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:4a1edff193f5b91efcf67f674ce9902c52e1785d5a3317df01b9a1fcdd29bb1d", size = 5720149, upload-time = "2026-09-10T13:18:18.407Z" },
-    { url = "https://files.pythonhosted.org/packages/24/d4/ba098c3cda4205591b5354b6dc7037d39619ea6d30b508a08ab42d3b7749/rigour-2.5.0-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:da5c7394e4d38ee020e0d1251c503998cff28226d7ba22b4e490ef5be62833b0", size = 5939050, upload-time = "2026-09-10T13:18:20.418Z" },
-    { url = "https://files.pythonhosted.org/packages/5c/46/6ae545506f4f1fd0452ad09860f5456051d89aeaf4f65741fd7ffbf1cb96/rigour-2.5.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4e6ccdb020a59e259072e0af1daa7d6748e6d65dd9183b27d3dc3038d6cee268", size = 5979307, upload-time = "2026-09-10T13:18:22.448Z" },
-    { url = "https://files.pythonhosted.org/packages/b2/ec/3d04a209a7d0ea2d1d877e9c8bbe32bd491a46a7e1181faecddd797b0140/rigour-2.5.0-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:fc4038d1096c790978b8e640b3b44396fe2733945de97897f7b2aa09ef27de5f", size = 6144121, upload-time = "2026-09-10T13:18:24.874Z" },
-    { url = "https://files.pythonhosted.org/packages/b9/66/7de3650f7a4677ec817870a037110bdb742848fc0b4d88f71ef161536483/rigour-2.5.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:6a32d1025fdd9530a123e268095645a17ced4d5f70590391abc665319ed07fbd", size = 6278750, upload-time = "2026-09-10T13:18:26.663Z" },
-    { url = "https://files.pythonhosted.org/packages/63/a9/72606624f5858521064a8da3370c88046c2ab3700afc58e9c361d3d4fb1c/rigour-2.5.0-cp314-cp314-win_amd64.whl", hash = "sha256:58721384eb9c4817673ac9a1ae80d425ad40affddacebcf6922f2c5e2f9ced45", size = 5628841, upload-time = "2026-09-10T13:18:28.699Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/cc/503edbfb0e8b185dedfdbc93e50574dadb02ba12314aef0d4ae6385e883d/rigour-2.6.1-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:837d86d54711377354aaceb0f03e8572ad9a141944c5329e0a90c1ed055675e4", size = 6314491, upload-time = "2026-10-21T20:09:45.053Z" },
+    { url = "https://files.pythonhosted.org/packages/57/dd/31bf951f30034a561836981b6f03a0dc7a1ce46d5adaaff41ad4dc84a677/rigour-2.6.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:cf48b217396d68248855bee2f2219c03d7138ed9eb2811ebdd8b919e451b8c05", size = 6238264, upload-time = "2026-10-21T20:09:47.383Z" },
+    { url = "https://files.pythonhosted.org/packages/3f/2c/739646d1f355732c0cf582e57e6510d8e711cd96f07a574ffa9d65757169/rigour-2.6.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c9256549289ac7df2cc1301918bb587936a46d6070ea21b111936b487fc90c37", size = 6459564, upload-time = "2026-10-21T20:09:49.579Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/a6/5115837245c4dcf26d908c4fa290091cdd4ec234c0ef35f189a6b304fc61/rigour-2.6.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a308e680cc021c6fdf7354e5f67ac1da4dd9b54fc504896f4f09d82c386ccc90", size = 6496914, upload-time = "2026-10-21T20:09:52.037Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/46/b07c615646bd7f5d3d3c320970ac1c2ffe6123e98f9e77d467f8fc81795b/rigour-2.6.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:5c97ba50851ba28ebb01d2d6108376d76cd845692393284cb7d26c24cdcd723a", size = 6666207, upload-time = "2026-10-21T20:09:54.267Z" },
+    { url = "https://files.pythonhosted.org/packages/88/14/dc399a575b2a5038107a29243cc0d8f6ad1ebb475be46e74f00ff2ca408d/rigour-2.6.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:5f670e069096e86158752c72d58baa9eda826b665812d06d856aa54c0fbea923", size = 6803109, upload-time = "2026-10-21T20:09:56.506Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/ed/222ef6a65165d6fe9c399d8a312a8f527dd3a0b2c5dbd9a02f98f35e5e8f/rigour-2.6.1-cp313-cp313-win_amd64.whl", hash = "sha256:dfe81a52df1992c85a0aa507d0de12765356d55fae8c6493b4c7f68b8d9bae63", size = 6153526, upload-time = "2026-10-21T20:09:58.484Z" },
+    { url = "https://files.pythonhosted.org/packages/51/43/bf52453377218a5680a76c714529cca02a18873404b2b2362eba8c26aa52/rigour-2.6.1-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:87e4d51e47741dd15ac6b598450bc7e608bac14412b60d9c1b471691a72e9b24", size = 6319135, upload-time = "2026-10-21T20:10:01.304Z" },
+    { url = "https://files.pythonhosted.org/packages/29/6e/569b6140b7aa169617834498a6daf39dec54a0c87f58c67c06350d047579/rigour-2.6.1-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:628dc1654b2d28e918b86ef773ccfe0e25c77785270a785873f3e3c5f5be6777", size = 6243575, upload-time = "2026-10-21T20:10:03.483Z" },
+    { url = "https://files.pythonhosted.org/packages/e2/c2/91716391ba81a358ba26f3417e127ed1e8fcbd9027e1181d260cb8aefce5/rigour-2.6.1-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bb4639e0150af120aca1be4cac46de14bd0efd537a4b84604cad0a6396b3ce13", size = 6464291, upload-time = "2026-10-21T20:10:05.792Z" },
+    { url = "https://files.pythonhosted.org/packages/cc/41/e97c4bdf428f31072678b81792e056e8d49fe62bdf591ae6843a24daa01a/rigour-2.6.1-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:727f14fd1cb5909f76f96c1fa2a478e131699edea4914cfa2ec7cc899e0eb819", size = 6533610, upload-time = "2026-10-21T20:10:08.017Z" },
+    { url = "https://files.pythonhosted.org/packages/72/ba/73e27265afc3226799f1cae9aa047a3dead3dae013f8bcffc6cb5c5d6475/rigour-2.6.1-cp314-cp314-musllinux_1_2_aarch64.whl", hash = "sha256:677b824e00b5f8e7346550c1ec40b16862c0652b4eadef55da8f86cce248451d", size = 6670148, upload-time = "2026-10-21T20:10:10.139Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/53/62f322a56e684be30b1668ae5e55bb4fb711e67e72a023acb8c3b0f18537/rigour-2.6.1-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:31b7e628648766a81dc63340536358d57e1310cf508e257f9ecde5025382bf3d", size = 6842988, upload-time = "2026-10-21T20:10:12.246Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/c2/8ef322af02bd407b2012159bf8b400c138a8e96b4b391ca93f91992b3fcb/rigour-2.6.1-cp314-cp314-win_amd64.whl", hash = "sha256:d4c133d74444f88ab34061b98e0e04235c179dee1b261c5120829d55e603b928", size = 6189756, upload-time = "2026-10-21T20:10:14.216Z" },
 ]
 
 [[package]]
